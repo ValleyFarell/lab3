@@ -19,7 +19,7 @@ class Matrix {
             }
             baseMatrix = tmpMatrix;
         };
-        template<size_t n, size_t m > 
+        template<size_t n, size_t m> 
         Matrix(T (&items)[n][m], size_t size) {
             this->size = size;
             ArraySequence<ArraySequence<T>> tmpMatrix(size);
@@ -71,6 +71,9 @@ class Matrix {
                 }
             }
             return *this;
+        }
+        ~Matrix () {
+            delete baseMatrix;
         }
         ArraySequence<T> operator[] (size_t index) const {
             return this->baseMatrix[index];
