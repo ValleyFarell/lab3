@@ -38,6 +38,7 @@ int typeChoiceView(size_t& n1, size_t& n2) {
         cout << " >>> ";
         cin >> tmp;
     }
+    if (tmp == 3) return 3;
     cout << " Введите размер первой и второй матрицы";
     cout << " >>> ";
     cin >> n1 >> n2;
@@ -46,7 +47,7 @@ int typeChoiceView(size_t& n1, size_t& n2) {
 
 int mainMenuView() {
     int tmp = -1;
-    while (tmp > 6 || tmp < 1) {
+    while (tmp > 5 || tmp < 1) {
         cout << "/----------------------Главное Меню----------------------\\" << endl;
         cout << "|                                                        |" << endl;
         cout << "|  1. Создать матрицы                                    |" << endl;
@@ -54,7 +55,6 @@ int mainMenuView() {
         cout << "|  3. Редактировать 2 матрицу                            |" << endl;
         cout << "|  4. Запуск тестов                                      |" << endl;
         cout << "|  5. Выход                                              |" << endl;
-        cout << "|  6. Выход                                              |" << endl;
         cout << "|                                                        |" << endl;
         cout << "\\--------------------------------------------------------/" << endl;
         cout << " >>> ";
@@ -65,7 +65,7 @@ int mainMenuView() {
 
 int matrixEditView() {
     int tmp = -1;
-    while (tmp > 12 || tmp < 1) {
+    while (tmp > 11 || tmp < 1) {
         cout << "/----------------------Первая матрица--------------------\\" << endl;
         cout << "|                                                        |" << endl;
         cout << "|  1. Заполнить числами из консоли                       |" << endl;
@@ -77,9 +77,8 @@ int matrixEditView() {
         cout << "|  7. Вычесть вторую матрицу с коэффициентом             |" << endl;
         cout << "|  8. Умножить на вторую матрицу                         |" << endl;
         cout << "|  9. Транспонировать                                    |" << endl;
-        cout << "|  10. Посчитать определитель                            |" << endl;
-        cout << "|  11. Вывести матрицу                                   |" << endl;
-        cout << "|  12. Выход                                             |" << endl;
+        cout << "|  10. Вывести матрицу                                   |" << endl;
+        cout << "|  11. Выход                                             |" << endl;
         cout << "|                                                        |" << endl;
         cout << "\\--------------------------------------------------------/" << endl;
         cout << " >>> ";
@@ -123,15 +122,312 @@ void mainLoop(State state) {
             state = State::MENU;
         } else
         if (state == State::FIRST_ED) {
+            while(state == State::FIRST_ED) {
             int userCh = matrixEditView();
+            if (type == 1) {
+                switch (userCh) {
+                    case 1:
+                        for (size_t i = 0; i < mat1int->getSize(); ++i) {
+                            for (size_t j = 0; j < mat1int->getSize(); ++j) {
+                                cout << " >>> Элемент матрицы (" << i << ", " << j << "): ";
+                                int tmp; cin >> tmp;
+                                mat1int->Set(i, j, tmp);
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (size_t i = 0; i < mat1int->getSize(); ++i) {
+                            for (size_t j = 0; j < mat1int->getSize(); ++j) {
+                                mat1int->Set(i, j, rand() % 1000);
+                            }
+                        }
+                        break;
+                    case 3:
+                        int ind1, ind2;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind1;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind2;
+                        mat1int->SwapLines(ind1, ind2);
+                        break;
+                    case 4:
+                        int ind;
+                        cout << " >>> Индекс строки: ";
+                        cin >> ind;
+                        int k;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k;
+                        mat1int->LineMultiply(ind, k);
+                        break;
+                    case 5:
+                        int ind11, ind21;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind11;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind21;
+                        int k1;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k1;
+                        mat1int->AddLineToLine(ind11, ind21, k1);
+                        break;
+                    case 6:
+                        int k2;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k2;
+                        mat1int->Multiply(k2);
+                        break;
+                    case 7:
+                        int k3;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k3;
+                        mat1int = new Matrix<int>(*mat1int - (*mat2int * k3));
+                        break;
+                    case 8:
+                        mat1int->Multiply(*mat2int);
+                        break;
+                    case 9:
+                        mat1int->Transponition();
+                        break;
+                    case 10:
+                        cout << *mat1int;
+                        break;
+                    case 11:
+                        state = State::MENU;
+                        break;
+                }
+                cout << *mat1int;
+            }
+            else {
+                switch (userCh) {
+                    case 1:
+                        for (size_t i = 0; i < mat1double->getSize(); ++i) {
+                            for (size_t j = 0; j < mat1double->getSize(); ++j) {
+                                cout << " >>> Элемент матрицы (" << i << ", " << j << "): ";
+                                double tmp; cin >> tmp;
+                                mat1double->Set(i, j, tmp);
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (size_t i = 0; i < mat1double->getSize(); ++i) {
+                            for (size_t j = 0; j < mat1double->getSize(); ++j) {
+                                mat1double->Set(i, j, rand() % 1000);
+                            }
+                        }
+                        break;
+                    case 3:
+                        int ind1, ind2;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind1;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind2;
+                        mat1double->SwapLines(ind1, ind2);
+                        break;
+                    case 4:
+                        int ind;
+                        cout << " >>> Индекс строки: ";
+                        cin >> ind;
+                        double k;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k;
+                        mat1double->LineMultiply(ind, k);
+                        break;
+                    case 5:
+                        int ind11, ind21;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind11;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind21;
+                        double k1;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k1;
+                        mat1double->AddLineToLine(ind11, ind21, k1);
+                        break;
+                    case 6:
+                        double k2;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k2;
+                        mat1double->Multiply(k2);
+                        break;
+                    case 7:
+                        double k3;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k3;
+                        mat1double = new Matrix<double>(*mat1double - (*mat2double * k3));
+                        break;
+                    case 8:
+                        mat1double->Multiply(*mat2double);
+                        break;
+                    case 9:
+                        mat1double->Transponition();
+                        break;
+                    case 10:
+                        cout << *mat1double;
+                        break;
+                    case 11:
+                        state = State::MENU;
+                        break;
+                }
+                cout << *mat1double;
+            }
+        }
         } else
         if (state == State::SECOND_ED) {
+            while(state == State::SECOND_ED) {
             int userCh = matrixEditView();
+            if (type == 1) {
+                switch (userCh) {
+                    case 1:
+                        for (size_t i = 0; i < mat2int->getSize(); ++i) {
+                            for (size_t j = 0; j < mat2int->getSize(); ++j) {
+                                cout << " >>> Элемент матрицы (" << i << ", " << j << "): ";
+                                int tmp; cin >> tmp;
+                                mat2int->Set(i, j, tmp);
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (size_t i = 0; i < mat2int->getSize(); ++i) {
+                            for (size_t j = 0; j < mat2int->getSize(); ++j) {
+                                mat2int->Set(i, j, rand() % 1000);
+                            }
+                        }
+                        break;
+                    case 3:
+                        int ind1, ind2;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind1;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind2;
+                        mat2int->SwapLines(ind1, ind2);
+                        break;
+                    case 4:
+                        int ind;
+                        cout << " >>> Индекс строки: ";
+                        cin >> ind;
+                        int k;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k;
+                        mat2int->LineMultiply(ind, k);
+                        break;
+                    case 5:
+                        int ind11, ind21;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind11;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind21;
+                        int k1;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k1;
+                        mat2int->AddLineToLine(ind11, ind21, k1);
+                        break;
+                    case 6:
+                        int k2;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k2;
+                        mat2int->Multiply(k2);
+                        break;
+                    case 7:
+                        int k3;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k3;
+                        mat2int = new Matrix<int>(*mat2int - (*mat2int * k3));
+                        break;
+                    case 8:
+                        mat2int->Multiply(*mat2int);
+                        break;
+                    case 9:
+                        mat2int->Transponition();
+                        break;
+                    case 10:
+                        cout << *mat2int;
+                        break;
+                    case 11:
+                        state = State::MENU;
+                        break;
+                }
+                cout << *mat2int;
+            }
+            else {
+                switch (userCh) {
+                    case 1:
+                        for (size_t i = 0; i < mat2double->getSize(); ++i) {
+                            for (size_t j = 0; j < mat2double->getSize(); ++j) {
+                                cout << " >>> Элемент матрицы (" << i << ", " << j << "): ";
+                                double tmp; cin >> tmp;
+                                mat2double->Set(i, j, tmp);
+                            }
+                        }
+                        break;
+                    case 2:
+                        for (size_t i = 0; i < mat2double->getSize(); ++i) {
+                            for (size_t j = 0; j < mat2double->getSize(); ++j) {
+                                mat2double->Set(i, j, rand() % 1000);
+                            }
+                        }
+                        break;
+                    case 3:
+                        int ind1, ind2;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind1;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind2;
+                        mat2double->SwapLines(ind1, ind2);
+                        break;
+                    case 4:
+                        int ind;
+                        cout << " >>> Индекс строки: ";
+                        cin >> ind;
+                        double k;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k;
+                        mat2double->LineMultiply(ind, k);
+                        break;
+                    case 5:
+                        int ind11, ind21;
+                        cout << " >>> Индекс 1-ой строки: ";
+                        cin >> ind11;
+                        cout << " >>> Индекс 2-ой строки: ";
+                        cin >> ind21;
+                        double k1;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k1;
+                        mat2double->AddLineToLine(ind11, ind21, k1);
+                        break;
+                    case 6:
+                        double k2;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k2;
+                        mat2double->Multiply(k);
+                        break;
+                    case 7:
+                        double k3;
+                        cout << " >>> Коэффициент: ";
+                        cin >> k3;
+                        mat2double = new Matrix<double>(*mat2double - (*mat2double * k));
+                        break;
+                    case 8:
+                        mat2double->Multiply(*mat2double);
+                        break;
+                    case 9:
+                        mat2double->Transponition();
+                        break;
+                    case 10:
+                        cout << *mat2double;
+                        break;
+                    case 11:
+                        state = State::MENU;
+                        break;
+                }
+                cout << *mat2double;
+            }
+            }
         } else
         if (state == State::TESTS) {
             mainMenuView();
         } else
         if (state == State::EXIT) {
+            exit(0);
             break;
         }
     }

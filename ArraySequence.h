@@ -33,6 +33,9 @@ class ArraySequence : public Sequence<T> {
         T Get(size_t index) {
             return baseArray.Get(index);
         }
+        T& Getz(size_t index) {
+            return baseArray.Get(index);
+        }
         ArraySequence<T>* GetSubsequence(int startIndex, int endIndex) {
             ArraySequence<T>* newSeq = new ArraySequence<T>(endIndex - startIndex);
             newSeq->baseArray = *(this->baseArray.GetSubArray(startIndex, endIndex));

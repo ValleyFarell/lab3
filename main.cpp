@@ -1,4 +1,5 @@
 #include"UI.h"
+
 int main() {
-    mainLoop(State::MENU);
+    mainLoop(State::MENU); 
 }

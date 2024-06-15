@@ -11,7 +11,9 @@ class Matrix {
             ArraySequence<ArraySequence<T>> tmpMatrix(0);
             baseMatrix = tmpMatrix;
         };
+        
         Matrix(size_t size) {
+            this->size = size;
             ArraySequence<ArraySequence<T>> tmpMatrix(size);
             for (size_t i = 0; i != size; ++i) {
                 ArraySequence<T> tmpVec(size);
@@ -28,6 +30,13 @@ class Matrix {
                 tmpMatrix[i] = tmpVec;
             }
             baseMatrix = tmpMatrix;
+        };
+        void Set(size_t i, size_t j, T elem) {
+            this->baseMatrix.Getz(i).Set(j, elem);
+        }
+        Matrix(const Matrix<T>& matrix) {
+            baseMatrix = matrix.baseMatrix;
+            size = matrix.getSize();
         };
         size_t const getSize() const {
             return size;
@@ -48,10 +57,19 @@ class Matrix {
             }
             return *this;
         }
-        Matrix Transponation(const int& k) {
+        Matrix LineMultiply(const size_t& index, const int& k) {
+            for (size_t j = 0; j != size; ++j) {
+                this->baseMatrix[index][j] *= k;
+            }
+            return *this;
+        }
+        Matrix Transponition() {
             for (size_t i = 0; i != size; ++i) {
-                for (size_t j = 0; j != size; ++j) {
-                    swap(this->baseMatrix[i][j], this->baseMatrix[j][i]);
+                for (size_t j = i; j != size; ++j) {
+                    T tmp1 = baseMatrix[i][j];
+                    T tmp2 = baseMatrix[j][i];
+                    this->Set(i, j, tmp2);
+                    this->Set(j, i, tmp1);
                 }
             }
             return *this;
@@ -64,6 +82,20 @@ class Matrix {
             }
             return *this;
         }
+        Matrix Multiply(const Matrix<T>& matrix) {
+            if (matrix.getSize() != this->size)
+                throw length_error("Lengths are not equals!");
+            for (size_t i = 0; i != size; ++i) {
+                for (size_t j = 0; j != size; ++j) {
+                    int tmp = 0;
+                    for (size_t k = 0; k != size; ++k) {
+                        tmp += (*this)[i][k] + matrix[k][j];
+                    }
+                    this->Set(i, j, tmp);
+                }
+            }
+            return *this;
+        }
         Matrix AddLineToLine(const int& index1, const int& index2, const int& k) {
             for (size_t i = 0; i != size; ++i) {
                 for (size_t j = 0; j != size; ++j) {
@@ -71,9 +103,6 @@ class Matrix {
                 }
             }
             return *this;
-        }
-        ~Matrix () {
-            delete baseMatrix;
         }
         ArraySequence<T> operator[] (size_t index) const {
             return this->baseMatrix[index];
