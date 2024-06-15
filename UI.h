@@ -1,6 +1,7 @@
 #include<iostream>
 #include"matrix.h"
 #include"ArraySequence.h"
+#include"tests.h"
 
 using namespace std;
 
@@ -424,7 +425,8 @@ void mainLoop(State state) {
             }
         } else
         if (state == State::TESTS) {
-            mainMenuView();
+            runAllTests();
+            state = State::MENU;
         } else
         if (state == State::EXIT) {
             exit(0);

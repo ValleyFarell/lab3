@@ -89,7 +89,7 @@ class Matrix {
                 for (size_t j = 0; j != size; ++j) {
                     int tmp = 0;
                     for (size_t k = 0; k != size; ++k) {
-                        tmp += (*this)[i][k] + matrix[k][j];
+                        tmp += (*this)[i][k] * matrix[k][j];
                     }
                     this->Set(i, j, tmp);
                 }

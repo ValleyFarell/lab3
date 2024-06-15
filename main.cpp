@@ -2,4 +2,5 @@
 
 int main() {
     mainLoop(State::MENU); 
+    
 }
